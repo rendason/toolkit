@@ -1,0 +1,17 @@
+application:
+  title: Tafia Toolkit
+  width: 820
+  height: 600
+commander:
+  side:
+    width: 20
+  item:
+    width: 200
+  options:
+    - name: Kafka
+      impl: org.tafia.tools.commander.KafkaPanel
+    - name: Test
+      impl: org.tafia.tools.commander.TestPanel
+dataFile: data.json
+originPidKey: origin.pid
+originJarKey: origin.jar
