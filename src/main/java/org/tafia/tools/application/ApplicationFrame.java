@@ -7,6 +7,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
@@ -38,7 +41,9 @@ public class ApplicationFrame extends JFrame {
 
     private JComponent detailPane;
 
-    private static final Color DARKER_GRAY = new Color(48, 48, 48);
+    private static final Color GRAY_48 = new Color(48, 48, 48);
+    private static final Color GRAY_56 = new Color(56, 56, 56);
+    private static final Color GRAY_64 = new Color(64, 64, 64);
 
     public ApplicationFrame() throws HeadlessException {
 
@@ -56,6 +61,11 @@ public class ApplicationFrame extends JFrame {
         setLayout(layout);
         makeLayout(layout);
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignore) {}
+        SwingUtilities.updateComponentTreeUI(itemPane);
+
         pack();
     }
 
@@ -69,7 +79,7 @@ public class ApplicationFrame extends JFrame {
     private void constructSideBar() {
         GlobalConfig.Commander.Side sideBarConfig = getGlobalConfig().getCommander().getSide();
         JPanel sideBar = new JPanel();
-        sideBar.setBackground(Color.DARK_GRAY);
+        sideBar.setBackground(GRAY_64);
         Dimension size = new Dimension(sideBarConfig.getWidth(), getPreferredSize().height);
         sideBar.setMinimumSize(new Dimension(sideBarConfig.getWidth(), getPreferredSize().height));
         sideBar.setSize(size);
@@ -92,7 +102,7 @@ public class ApplicationFrame extends JFrame {
     private void constructExecutor() {
         JPanel executorlPane = new JPanel();
         executorlPane.setLayout(new BorderLayout());
-        executorlPane.setBackground(Color.DARK_GRAY);
+        executorlPane.setBackground(GRAY_64);
         int width = getPreferredSize().width - sideBar.getPreferredSize().width - itemPane.getPreferredSize().width;
         executorlPane.setPreferredSize(new Dimension(width, getPreferredSize().height ));
         add(executorlPane);
@@ -116,16 +126,15 @@ public class ApplicationFrame extends JFrame {
             JButton button = createSideButton(option.getName());
             button.addActionListener(e -> {
                 JButton current = ((JButton) e.getSource());
-                current.setBackground(DARKER_GRAY);
-                buttonList.stream().filter(b -> b != current).forEach(b -> b.setBackground(Color.DARK_GRAY));
+                current.setBackground(GRAY_48);
+                buttonList.stream().filter(b -> b != current).forEach(b -> b.setBackground(GRAY_64));
                 cardLayout.show(itemPane, option.getName());
             });
-            if (buttonList.isEmpty()) button.setBackground(DARKER_GRAY);
+            if (buttonList.isEmpty()) button.setBackground(GRAY_48);
             buttonList.add(button);
             sideBar.add(button);
             JComponent item;
             try {
-
                 item = (JComponent) Class.forName(option.getImpl()).newInstance();
             } catch (Exception e) {
                 throw Exceptions.checked(e);
@@ -139,8 +148,25 @@ public class ApplicationFrame extends JFrame {
         button.setUI(new VerticalButtonUI(270));
         button.setBorder(new EmptyBorder(2, 20, 2, 20));
         button.setFont(new Font(button.getFont().getName(), Font.PLAIN, 12));
-        button.setBackground(Color.DARK_GRAY);
+        button.setBackground(GRAY_64);
         button.setForeground(Color.WHITE);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                JButton b = (JButton) e.getSource();
+                if (GRAY_64.equals(b.getBackground())) {
+                    b.setBackground(GRAY_56);
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                JButton b = (JButton) e.getSource();
+                if (GRAY_56.equals(b.getBackground())) {
+                    b.setBackground(GRAY_64);
+                }
+            }
+        });
         return button;
     }
 
