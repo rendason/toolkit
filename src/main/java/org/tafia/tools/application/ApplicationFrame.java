@@ -9,12 +9,12 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import static java.awt.GridBagConstraints.*;
 import static org.tafia.tools.application.Global.getGlobalConfig;
+import static org.tafia.tools.application.Global.*;
 
 /**
  * Created by Dason on 2018/4/20.
@@ -41,11 +41,7 @@ public class ApplicationFrame extends JFrame {
 
     private JComponent detailPane;
 
-    private static final Color GRAY_48 = new Color(48, 48, 48);
-    private static final Color GRAY_56 = new Color(56, 56, 56);
-    private static final Color GRAY_64 = new Color(64, 64, 64);
-
-    public ApplicationFrame() throws HeadlessException {
+    public ApplicationFrame() {
 
         GlobalConfig.Application appConfig = getGlobalConfig().getApplication();
         setTitle(appConfig.getTitle());
@@ -83,7 +79,7 @@ public class ApplicationFrame extends JFrame {
         Dimension size = new Dimension(sideBarConfig.getWidth(), getPreferredSize().height);
         sideBar.setMinimumSize(new Dimension(sideBarConfig.getWidth(), getPreferredSize().height));
         sideBar.setSize(size);
-        sideBar.setBorder(new MatteBorder(0, 0, 0, 1, Color.GRAY));
+        sideBar.setBorder(new MatteBorder(0, 0, 0, 1, GRAY_240));
         add(sideBar);
         this.sideBar = sideBar;
     }
@@ -91,7 +87,7 @@ public class ApplicationFrame extends JFrame {
     private void constructItemBar() {
         GlobalConfig.Commander.Item itemPaneConfig = getGlobalConfig().getCommander().getItem();
         JPanel itemPane = new JPanel();
-        itemPane.setBackground(Color.GRAY);
+        itemPane.setBackground(GRAY_240);
         Dimension size = new Dimension(itemPaneConfig.getWidth(), getPreferredSize().height);
         itemPane.setPreferredSize(size);
         itemPane.setSize(size);

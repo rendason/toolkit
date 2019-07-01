@@ -3,7 +3,7 @@ package org.tafia.tools.application;
 import java.util.List;
 
 /**
- * Created by Dason on 2018/4/20.
+ * 全局配置
  */
 public class GlobalConfig {
 
@@ -57,6 +57,9 @@ public class GlobalConfig {
         this.commander = commander;
     }
 
+    /**
+     * 应用
+     */
     public static class Application {
         private String title;
         private Integer width;

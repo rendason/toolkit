@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.tafia.tools.utils.Exceptions;
 import org.yaml.snakeyaml.Yaml;
 
+import java.awt.*;
 import java.io.*;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
@@ -24,6 +25,12 @@ public class Global {
     private static Map<String, Object> globalData;
 
     private static Path codeSource;
+
+    public static final Color GRAY_48 = new Color(48, 48, 48);
+    public static final Color GRAY_56 = new Color(56, 56, 56);
+    public static final Color GRAY_64 = new Color(64, 64, 64);
+    public static final Color GRAY_240 = new Color(240, 240, 240);
+
 
     private static void initializeConfig() {
         InputStream inputStream = Global.class.getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
